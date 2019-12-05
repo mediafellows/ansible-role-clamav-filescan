@@ -13,12 +13,12 @@ clamav_unofficial_sigs_install_manpage: true
 clamav_unofficial_sigs_custom_conf: true
 # valid rating: LOW, MEDIUM, HIGH
 clamav_sigs_false_positive_risk_level: 'MEDIUM'
-# datasources enabled:
-clamav_sigs_sanesecurity_enabled: yes
-clamav_sigs_securiteinfo_enabled: no # needs token
-clamav_sigs_linuxmalwaredetect_enabled: yes
-clamav_sigs_yararulesproject_enabled: yes # will only become active if clamav version is >= 0.99
-clamav_sigs_malwarepatrol_enabled: yes # needs token for full catalogue
+# datasources enabled (make sure 'yes' and 'no' are quoted to keep them as a string and not a boolean):
+clamav_sigs_sanesecurity_enabled: 'yes'
+clamav_sigs_securiteinfo_enabled: 'no' # needs token
+clamav_sigs_linuxmalwaredetect_enabled: 'yes'
+clamav_sigs_yararulesproject_enabled: 'yes' # will only become active if clamav version is >= 0.99
+clamav_sigs_malwarepatrol_enabled: 'yes' # needs token for full catalogue
 
 # Define tokens to fully enable SecuriteInfo and malwarePatrol
 # securiteinfo_authorisation_signature: 'XXXXXX'
