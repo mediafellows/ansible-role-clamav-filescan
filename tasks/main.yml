@@ -3,6 +3,11 @@
 
 # Roughly following this guide https://github.com/extremeshok/clamav-unofficial-sigs/blob/master/guides/ubuntu-debian.md
 
+- name: Check if we are on Ubuntu
+  fail:
+    msg: 'This role will only work on Ubuntu'
+  when: ansible_distribution != 'Ubuntu'
+
 - name: Install clamav apt package (also installs freshclam and clamav-base)
   apt:
     name: clamav

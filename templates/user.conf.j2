@@ -36,7 +36,7 @@ malwarepatrol_list="clamav_basic" # clamav_basic or clamav_ext
 malwarepatrol_free="yes"
 {% endif %}
 
-{% securiteinfo_authorisation_signature is defined %}
+{% if securiteinfo_authorisation_signature is defined %}
 securiteinfo_authorisation_signature="{{ securiteinfo_authorisation_signature }}"
 {% endif %}
 
