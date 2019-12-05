@@ -103,5 +103,5 @@
 
 - name: Show output of clamscan (signatures should be > 6.600.000)
   debug:
-    var: clamscan_result.sdtout
+    var: clamscan_result.stdout
 
