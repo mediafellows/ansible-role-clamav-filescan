@@ -3,8 +3,8 @@
 
 # clamav-unofficial-sigs vars:
 
-clamav_unofficial_sigs_install_dir: /usr/local/sbin/
-clamav_unofficial_sigs_config_dir: /etc/clamav-unofficial-sigs/
+clamav_unofficial_sigs_install_dir: /usr/local/sbin
+clamav_unofficial_sigs_config_dir: /etc/clamav-unofficial-sigs
 
 clamav_unofficial_sigs_install_logrotate: true
 clamav_unofficial_sigs_install_manpage: true
