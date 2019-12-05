@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/mediapeers/ansible-role-clamav-filescan.svg?branch=master)](https://travis-ci.com/mediapeers/ansible-role-clamav-filescan)
+
 # Clamav filescan Ansible role
 
 Sets up clamav for scanning files from the command line using clamscan on an Ubuntu server.

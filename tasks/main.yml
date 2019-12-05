@@ -18,7 +18,7 @@
     recurse: yes
     owner: root
     state: directory
-  items:
+  with_items:
     - "{{ clamav_unofficial_sigs_install_dir }}"
     - "{{ clamav_unofficial_sigs_config_dir }}"
 
@@ -32,7 +32,7 @@
   get_url:
     url: "{{ clamav_unofficial_sigs_gh_url }}/{{ item }}"
     dest: "{{ clamav_unofficial_sigs_config_dir }}/{{ item|replace('ubuntu', '') }}"
-  items:
+  with_items:
     - master.conf
     - user.conf
     - os.ubuntu.conf
