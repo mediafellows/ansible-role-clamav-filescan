@@ -9,6 +9,11 @@ install:
   # Update apt package index
   - sudo apt-get update -qq
 
+  # Install ruby and serverspec to run tests later
+  - sudo apt-get install -y ruby
+  - sudo ruby -v
+  - gem install serverspec
+
   # Install ansible
   - pip install ansible
 
@@ -26,12 +31,15 @@ script:
   # Run role again for idempotence check
   - >
     ansible-playbook tests/test.yml -i tests/inventory --connection=local
-#    | grep -q 'changed=0.*failed=0'
-#    && (echo 'Idempotence test: pass' && exit 0)
-#    || (echo 'Idempotence test: fail' && exit 1)
+    | grep -q 'changed=0.*failed=0'
+    && (echo 'Idempotence test: pass' && exit 0)
+    || (echo 'Idempotence test: fail' && exit 1)
 
   # Output user.conf for debugging
   - cat /etc/clamav-unofficial-sigs/user.conf
+
+  # Run serverspec testsuite
+  - rake spec
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/

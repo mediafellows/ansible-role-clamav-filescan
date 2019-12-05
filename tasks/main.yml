@@ -68,7 +68,7 @@
   register: info_result
   # don't consider it a failure when an instance is already running
   failed_when:
-    - info_result failed
+    - info_result.failed
     - '"Only one instance can run at the same time" not in info_result.stdout'
 
 - name: Output clamav-unofficial-sigs info
@@ -80,7 +80,7 @@
   register: install_result
   # don't consider it a failure when an instance is already running
   failed_when:
-    - info_result failed
+    - info_result.failed
     - '"Only one instance can run at the same time" not in info_result.stdout'
 
 - name: Output result of install step
