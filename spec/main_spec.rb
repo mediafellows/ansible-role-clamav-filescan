@@ -26,6 +26,15 @@ describe 'clamav-unofficial-sigs setup' do
     its(:content) { should include("sanesecurity_enabled=\"#{ANSIBLE_VARS.fetch('clamav_sigs_sanesecurity_enabled', 'FAIL')}\"") }
     its(:content) { should include("securiteinfo_enabled=\"#{ANSIBLE_VARS.fetch('clamav_sigs_securiteinfo_enabled', 'FAIL')}\"") }
     its(:content) { should include('user_configuration_complete="yes"') }
-    its(:content) { should include('FOOOBAAR') }
+  end
+
+  describe file('/etc/systemd/system/clamav-unofficial-sigs.service') do
+    it { should be_file }
+    its(:content) { should include("ExecStart=/usr/local/sbin/clamav-unofficial-sigs") }
+  end
+
+  describe file('/etc/systemd/system/clamav-unofficial-sigs.timer') do
+    it { should be_file }
+    its(:content) { should include("[Timer]") }
   end
 end

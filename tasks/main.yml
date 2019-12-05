@@ -25,6 +25,10 @@
 # -- Start clamav-unofficial-sigs install --
 # roughly following this guide https://github.com/extremeshok/clamav-unofficial-sigs/blob/master/guides/ubuntu-debian.md
 
+- name: Initialize variable
+  set_fact:
+    clamav_unofficial_sigs_already_installed: false
+
 - name: Prepares install dirs for clamav-unofficial-sigs tool
   file:
     path: "{{ item }}"
@@ -75,25 +79,33 @@
   debug:
     var: info_result.stdout_lines
 
+- name: Set already installed flag to skip the clamav-unofficial-sigs commands
+  set_fact:
+    clamav_unofficial_sigs_already_installed: true
+  when:
+    - '"Only one instance can run at the same time" in info_result.stdout'
+
 - name: Run the clamav-unofficial-sigs install command
   shell: '{{ clamav_unofficial_sigs_install_dir }}/clamav-unofficial-sigs --force --verbose'
   register: install_result
-  # don't consider it a failure when an instance is already running
-  failed_when:
-    - info_result.failed
-    - '"Only one instance can run at the same time" not in info_result.stdout'
+  when: not clamav_unofficial_sigs_already_installed
 
 - name: Output result of install step
   debug:
     var: install_result.stdout_lines
+  when: not clamav_unofficial_sigs_already_installed
 
 - name: Install clamav-unofficial-sigs logrotate config
   shell: '{{ clamav_unofficial_sigs_install_dir }}/clamav-unofficial-sigs --install-logrotate'
-  when: clamav_unofficial_sigs_install_logrotate
+  when:
+    - clamav_unofficial_sigs_install_logrotate
+    - not clamav_unofficial_sigs_already_installed
 
 - name: Install clamav-unofficial-sigs man-page
   shell: '{{ clamav_unofficial_sigs_install_dir }}/clamav-unofficial-sigs --install-man'
-  when: clamav_unofficial_sigs_install_manpage
+  when:
+    - clamav_unofficial_sigs_install_manpage
+    - not clamav_unofficial_sigs_already_installed
 
 - name: Install systemd configs that run signature updates in boot and every hour after that
   template:

@@ -5,10 +5,11 @@
 [Unit]
 Description=Clamav Unofficial Sigs update timer
 Documentation=man:clamav-unofficial-sigs(8)
+Wants=network-online.target
 
 [Timer]
 # Activates the service 3 seconds after boot
-OnBootSec=3s
+OnBootSec=2s
 # Activates the service every hour since last execution
 OnUnitInactiveSec=1h
 
