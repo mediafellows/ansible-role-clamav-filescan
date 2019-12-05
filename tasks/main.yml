@@ -1,7 +1,6 @@
 ---
 # tasks file for mediapeers.clamav-filescan
 
-# Roughly following this guide https://github.com/extremeshok/clamav-unofficial-sigs/blob/master/guides/ubuntu-debian.md
 
 - name: Check if we are on Ubuntu
   fail:
@@ -19,7 +18,18 @@
     purge: yes
     state: absent
 
-- name: Prepares install dirs for clamav-unofficial-sigs
+- name: Run freshclam once to initially get the official ClamAV signatures
+  shell: freshclam
+  register: freshclam_result
+
+- name: Output freshclam results
+  debug:
+    var: freshclam_result.stdout_lines
+
+# -- Start clamav-unofficial-sigs install --
+# roughly following this guide https://github.com/extremeshok/clamav-unofficial-sigs/blob/master/guides/ubuntu-debian.md
+
+- name: Prepares install dirs for clamav-unofficial-sigs tool
   file:
     path: "{{ item }}"
     recurse: yes
@@ -63,15 +73,15 @@
 
 - name: Output clamav-unofficial-sigs infos
   debug:
-    var: info_result
+    var: info_result.stdout_lines
 
 - name: Run the clamav-unofficial-sigs install command
-  shell: '{{ clamav_unofficial_sigs_install_dir }}/clamav-unofficial-sigs --force'
+  shell: '{{ clamav_unofficial_sigs_install_dir }}/clamav-unofficial-sigs --force --verbose'
   register: install_result
 
 - name: Output result of install step
   debug:
-    var: install_result
+    var: install_result.stdout_lines
 
 - name: Install clamav-unofficial-sigs logrotate config
   shell: '{{ clamav_unofficial_sigs_install_dir }}/clamav-unofficial-sigs --install-logrotate'
@@ -95,6 +105,8 @@
     daemon_reload: yes
     enabled: yes
     state: restarted
+
+# -- End of clamav-unofficial-sigs install --
 
 - name: Scan a file to ensure clamscan command works and has signatures loaded
   shell: 'clamscan /usr/local/sbin/clamav-unofficial-sigs'
