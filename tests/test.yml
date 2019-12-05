@@ -2,9 +2,10 @@
 - hosts: localhost
   become: true
   vars:
+    clamav_sigs_false_positive_risk_level: 'LOW'
     clamav_sigs_sanesecurity_enabled: 'yes'
     clamav_sigs_securiteinfo_enabled: 'no'
-    clamav_sigs_linuxmalwaredetect_enabled: 'yes'
+    clamav_sigs_linuxmalwaredetect_enabled: 'no'
     clamav_sigs_yararulesproject_enabled: 'no'
     clamav_sigs_malwarepatrol_enabled: 'no'
   roles:
