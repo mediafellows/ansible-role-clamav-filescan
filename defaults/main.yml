@@ -23,3 +23,4 @@ clamav_sigs_malwarepatrol_enabled: yes # needs token for full catalogue
 # Define tokens to fully enable SecuriteInfo and malwarePatrol
 # securiteinfo_authorisation_signature: 'XXXXXX'
 # malwarepatrol_receipt_code: 'XXXXX'
+# malwarepatrol_product_code: 10
