@@ -1,6 +1,8 @@
 ---
 # tasks file for mediapeers.clamav-filescan
 
+# Roughly following this guide https://github.com/extremeshok/clamav-unofficial-sigs/blob/master/guides/ubuntu-debian.md
+
 - name: Install clamav apt package (also installs freshclam and clamav-base)
   apt:
     name: clamav
@@ -28,20 +30,27 @@
     dest: "{{ clamav_unofficial_sigs_install_dir}}/clamav-unofficial-sigs"
     mode: 0755
 
-- name: Download clamav-unofficial-sigs configs to config dir
+- name: Download clamav-unofficial-sigs configs to config dir, master.conf
   get_url:
-    url: "{{ clamav_unofficial_sigs_gh_url }}/config/{{ item }}"
-    dest: "{{ clamav_unofficial_sigs_config_dir }}/{{ item|replace('ubuntu', '') }}"
-  with_items:
-    - master.conf
-    - user.conf
-    - os.ubuntu.conf
+    url: "{{ clamav_unofficial_sigs_gh_url }}/config/master.conf"
+    dest: "{{ clamav_unofficial_sigs_config_dir }}/master.conf"
+
+- name: os.ubuntu.conf
+  get_url:
+    url: "{{ clamav_unofficial_sigs_gh_url }}/config/os/os.ubuntu.conf"
+    dest: "{{ clamav_unofficial_sigs_config_dir }}/os.conf"
+
+- name: user.conf (unless role template is used)
+  get_url:
+    url: "{{ clamav_unofficial_sigs_gh_url }}/config/user.conf"
+    dest: "{{ clamav_unofficial_sigs_config_dir }}/user.conf"
+  when: not clamav_unofficial_sigs_custom_conf|bool
 
 - name: Place custom user.conf for clamav-unofficial-sigs if enabled
   template:
     src: user.conf.j2
     dest: "{{ clamav_unofficial_sigs_config_dir }}/user.conf"
-  when: clamav_unofficial_sigs_custom_conf
+  when: clamav_unofficial_sigs_custom_conf|bool
 
 - name: Get clamav-unofficial-sigs info output
   shell: '{{ clamav_unofficial_sigs_install_dir }}/clamav-unofficial-sigs --information'
