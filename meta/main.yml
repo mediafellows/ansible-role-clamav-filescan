@@ -1,0 +1,22 @@
+galaxy_info:
+  author: Stefan Horning
+  description: Sets up Clamav for effective file scanning
+  company: Mediapeers GmbH
+  license: BSD
+
+  min_ansible_version: 2.9
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - all
+
+  galaxy_tags:
+    - virus-scanning
+    - clamav
+    - clamav-unofficial-sigs
+    - file-scanning
+    - ubuntu
+    - security
+
+dependencies: []
