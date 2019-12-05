@@ -30,7 +30,7 @@
 
 - name: Download clamav-unofficial-sigs configs to config dir
   get_url:
-    url: "{{ clamav_unofficial_sigs_gh_url }}/{{ item }}"
+    url: "{{ clamav_unofficial_sigs_gh_url }}/config/{{ item }}"
     dest: "{{ clamav_unofficial_sigs_config_dir }}/{{ item|replace('ubuntu', '') }}"
   with_items:
     - master.conf
