@@ -65,22 +65,23 @@
 
 - name: Get clamav-unofficial-sigs info output
   shell: '{{ clamav_unofficial_sigs_install_dir }}/clamav-unofficial-sigs --information'
-  ignore_errors: true
   register: info_result
+  # don't consider it a failure when an instance is already running
+  failed_when:
+    - info_result failed
+    - '"Only one instance can run at the same time" not in info_result.stdout'
 
-- name: Output clamav-unofficial-sigs infos (worked)
+- name: Output clamav-unofficial-sigs info
   debug:
     var: info_result.stdout_lines
-  when: not info_result.failed
-
-- name: Output clamav-unofficial-sigs infos (failed)
-  debug:
-    var: info_result.stderr_lines
-  when: info_result.failed
 
 - name: Run the clamav-unofficial-sigs install command
   shell: '{{ clamav_unofficial_sigs_install_dir }}/clamav-unofficial-sigs --force --verbose'
   register: install_result
+  # don't consider it a failure when an instance is already running
+  failed_when:
+    - info_result failed
+    - '"Only one instance can run at the same time" not in info_result.stdout'
 
 - name: Output result of install step
   debug:
