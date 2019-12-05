@@ -59,11 +59,11 @@
 
 - name: Get clamav-unofficial-sigs info output
   shell: '{{ clamav_unofficial_sigs_install_dir }}/clamav-unofficial-sigs --information'
+  register: info_result
 
 - name: Output clamav-unofficial-sigs infos
   debug:
-    var: info_result.stdout
-#    verbosity: 1
+    var: info_result.stderr_lines
 
 - name: Run the clamav-unofficial-sigs install command
   shell: '{{ clamav_unofficial_sigs_install_dir }}/clamav-unofficial-sigs --force'
@@ -71,8 +71,7 @@
 
 - name: Output result of install step
   debug:
-    var: install_result.stdout
-#    verbosity: 1
+    var: install_result.stderr_lines
 
 - name: Install clamav-unofficial-sigs logrotate config
   shell: '{{ clamav_unofficial_sigs_install_dir }}/clamav-unofficial-sigs --install-logrotate'
@@ -103,5 +102,4 @@
 
 - name: Show output of clamscan (signatures should be > 6.600.000)
   debug:
-    var: clamscan_result.stdout
-
+    var: clamscan_result.stdout_lines
