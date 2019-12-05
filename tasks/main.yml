@@ -63,7 +63,7 @@
 - name: Output clamav-unofficial-sigs infos
   debug:
     var: info_result.sdtout
-    verbosity: 1
+#    verbosity: 1
 
 - name: Run the clamav-unofficial-sigs install command
   shell: '{{ clamav_unofficial_sigs_install_dir }}/clamav-unofficial-sigs --force'
@@ -72,7 +72,7 @@
 - name: Output result of install step
   debug:
     var: install_result.sdtout
-    verbosity: 1
+#    verbosity: 1
 
 - name: Install clamav-unofficial-sigs logrotate config
   shell: '{{ clamav_unofficial_sigs_install_dir }}/clamav-unofficial-sigs --install-logrotate'
