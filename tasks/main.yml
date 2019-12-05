@@ -18,10 +18,6 @@
     purge: yes
     state: absent
 
-- name: Run freshclam once to initially get the official ClamAV signatures
-  shell: freshclam
-  register: freshclam_result
-
 - name: Output freshclam results
   debug:
     var: freshclam_result.stdout_lines
@@ -69,11 +65,18 @@
 
 - name: Get clamav-unofficial-sigs info output
   shell: '{{ clamav_unofficial_sigs_install_dir }}/clamav-unofficial-sigs --information'
+  ignore_errors: true
   register: info_result
 
-- name: Output clamav-unofficial-sigs infos
+- name: Output clamav-unofficial-sigs infos (worked)
   debug:
     var: info_result.stdout_lines
+  when: not info_result.failed
+
+- name: Output clamav-unofficial-sigs infos (failed)
+  debug:
+    var: info_result.stderr_lines
+  when: info_result.failed
 
 - name: Run the clamav-unofficial-sigs install command
   shell: '{{ clamav_unofficial_sigs_install_dir }}/clamav-unofficial-sigs --force --verbose'
