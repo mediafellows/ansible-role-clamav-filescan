@@ -1,0 +1,16 @@
+# {{ ansible_managed }}
+
+# SystemD config file that retriggers the clamav-unofficial-sigs.service once every hour
+
+[Unit]
+Description=Clamav Unofficial Sigs update timer
+Documentation=man:clamav-unofficial-sigs(8)
+
+[Timer]
+# Activates the service 3 seconds after boot
+OnBootSec=3s
+# Activates the service every hour since last execution
+OnUnitInactiveSec=1h
+
+[Install]
+WantedBy=multi-user.target

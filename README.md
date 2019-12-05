@@ -22,6 +22,7 @@ No dependencies on other roles
 Include this role into your playbook like this:
 
     - hosts: servers
+      become: true
       vars:
         clamav_filescan_source: xxx
       roles:

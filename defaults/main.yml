@@ -1,2 +1,25 @@
 ---
 # defaults file for mediapeers.clamav-filescan
+
+# clamav-unofficial-sigs vars:
+
+clamav_unofficial_sigs_install_dir: /usr/local/sbin/
+clamav_unofficial_sigs_config_dir: /etc/clamav-unofficial-sigs/
+
+clamav_unofficial_sigs_install_logrotate: true
+clamav_unofficial_sigs_install_manpage: true
+
+# custom config params for clamav-unofficial-sigs setup:
+clamav_unofficial_sigs_custom_conf: true
+# valid rating: LOW, MEDIUM, HIGH
+clamav_sigs_false_positive_risk_level: 'MEDIUM'
+# datasources enabled:
+clamav_sigs_sanesecurity_enabled: yes
+clamav_sigs_securiteinfo_enabled: no # needs token
+clamav_sigs_linuxmalwaredetect_enabled: yes
+clamav_sigs_yararulesproject_enabled: yes # will only become active if clamav version is >= 0.99
+clamav_sigs_malwarepatrol_enabled: yes # needs token for full catalogue
+
+# Define tokens to fully enable SecuriteInfo and malwarePatrol
+# securiteinfo_authorisation_signature: 'XXXXXX'
+# malwarepatrol_receipt_code: 'XXXXX'

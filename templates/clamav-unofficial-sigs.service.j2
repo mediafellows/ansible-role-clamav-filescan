@@ -1,0 +1,14 @@
+# {{ ansible_managed }}
+
+# SystemD config file for clamav-unofficial-sigs that executes signature updates.
+# This service will be triggered by the clamav-unofficial-sigs.timer config, hence this
+# unit doesn't have any Install section.
+
+[Unit]
+Description=Clamav Unofficial Sigs update service
+Documentation=man:clamav-unofficial-sigs(8)
+Wants=clamav-unofficial-sigs.timer
+
+[Service]
+Type=oneshot
+ExecStart={{ clamav_unofficial_sigs_install_dir }}/clamav-unofficial-sigs

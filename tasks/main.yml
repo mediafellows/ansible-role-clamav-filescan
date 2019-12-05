@@ -1,2 +1,93 @@
 ---
 # tasks file for mediapeers.clamav-filescan
+
+- name: Install clamav apt package (also installs freshclam and clamav-base)
+  apt:
+    name: clamav
+    state: present
+
+- name: Make sure clamav-unofficial-sigs apt package is NOT installed
+  apt:
+    name: clamav-unofficial-sigs
+    purge: yes
+    state: absent
+
+- name: Prepares install dirs for clamav-unofficial-sigs
+  file:
+    path: "{{ item }}"
+    recurse: yes
+    owner: root
+    state: directory
+  items:
+    - "{{ clamav_unofficial_sigs_install_dir }}"
+    - "{{ clamav_unofficial_sigs_config_dir }}"
+
+- name: Download clamav-unofficial-sigs script to install dir
+  get_url:
+    url: "{{ clamav_unofficial_sigs_gh_url }}/clamav-unofficial-sigs.sh"
+    dest: "{{ clamav_unofficial_sigs_install_dir}}/clamav-unofficial-sigs"
+    mode: 0755
+
+- name: Download clamav-unofficial-sigs configs to config dir
+  get_url:
+    url: "{{ clamav_unofficial_sigs_gh_url }}/{{ item }}"
+    dest: "{{ clamav_unofficial_sigs_config_dir }}/{{ item|replace('ubuntu', '') }}"
+  items:
+    - master.conf
+    - user.conf
+    - os.ubuntu.conf
+
+- name: Place custom user.conf for clamav-unofficial-sigs if enabled
+  template:
+    src: user.conf.j2
+    dest: "{{ clamav_unofficial_sigs_config_dir }}/user.conf"
+  when: clamav_unofficial_sigs_custom_conf
+
+- name: Get clamav-unofficial-sigs info output
+  shell: '{{ clamav_unofficial_sigs_install_dir }}/clamav-unofficial-sigs --information'
+
+- name: Output clamav-unofficial-sigs infos
+  debug:
+    var: info_result.sdtout
+    verbosity: 1
+
+- name: Run the clamav-unofficial-sigs install command
+  shell: '{{ clamav_unofficial_sigs_install_dir }}/clamav-unofficial-sigs --force'
+  register: install_result
+
+- name: Output result of install step
+  debug:
+    var: install_result.sdtout
+    verbosity: 1
+
+- name: Install clamav-unofficial-sigs logrotate config
+  shell: '{{ clamav_unofficial_sigs_install_dir }}/clamav-unofficial-sigs --install-logrotate'
+  when: clamav_unofficial_sigs_install_logrotate
+
+- name: Install clamav-unofficial-sigs man-page
+  shell: '{{ clamav_unofficial_sigs_install_dir }}/clamav-unofficial-sigs --install-man'
+  when: clamav_unofficial_sigs_install_manpage
+
+- name: Install systemd configs that run signature updates in boot and every hour after that
+  template:
+    src: "{{ item }}.j2"
+    dest: "/etc/systemd/system/{{ item }}"
+  with_items:
+    - clamav-unofficial-sigs.service
+    - clamav-unofficial-sigs.timer
+
+- name: Ensure the SystemD timer config is enabled to trigger signature updates on boot/hourly
+  systemd:
+    name: clamav-unofficial-sigs.timer
+    daemon_reload: yes
+    enabled: yes
+    state: restarted
+
+- name: Scan a file to ensure clamscan command works and has signatures loaded
+  shell: 'clamscan /usr/local/sbin/clamav-unofficial-sigs'
+  register: clamscan_result
+
+- name: Show output of clamscan (signatures should be > 6.600.000)
+  debug:
+    var: clamscan_result.sdtout
+
