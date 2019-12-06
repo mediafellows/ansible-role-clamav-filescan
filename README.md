@@ -20,6 +20,7 @@ Those are the most important you probably want to set:
 - `clamav_sigs_sanesecurity_enabled: 'yes'` - Set to `'no'` to disable the Sanesecurity.com signature DB
 - `clamav_sigs_securiteinfo_enabled: 'no'` - Set to `'yes'` to enable the SecuriteInfo.com signature DB, also set `securiteinfo_authorisation_signature` then
 - `clamav_sigs_yararulesproject_enabled: 'yes'` - Set to `'yes'` to enable [Yara-Rules Project](https://github.com/Yara-Rules/rules) signatures.
+- `clamav_sigs_linuxmalwaredetect_enabled: 'yes'` - Set to `'no'` to disable [Linuxmalwaredetect](https://www.rfxn.com/projects/linux-malware-detect/) DB.
 - `clamav_sigs_malwarepatrol_enabled: 'yes'` - Set to `'no'` to disable MalwarePatrol.net rules
 - `securiteinfo_authorisation_signature: ABC123ABC123` - Set to your Securiteinfo download token (otherwise this DB won't be used)
 - `malwarepatrol_receipt_code: ABC123ABC123` - Set to your MalwarePatrol receipt code to enable their commercial signatures, also set the `malwarepatrol_product_code` to your product code
