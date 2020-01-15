@@ -12,7 +12,7 @@ Tested to run on Ubuntu Server.
 ## Role Variables
 
 Variables in this role are mostly for configuring the clamav-unofficial-sigs tool.
-For all varaibles checkout `defaults/main.yml`.
+For all variables checkout `defaults/main.yml`.
 
 Those are the most important you probably want to set:
 

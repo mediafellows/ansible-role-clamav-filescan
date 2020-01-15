@@ -1,6 +1,9 @@
 ---
 # defaults file for mediapeers.clamav-filescan
 
+# Set to false to not install libclamunrar9 package:
+clamav_filescan_rar_support: true
+
 # clamav-unofficial-sigs vars:
 
 clamav_unofficial_sigs_install_dir: /usr/local/sbin
@@ -11,8 +14,11 @@ clamav_unofficial_sigs_install_manpage: true
 
 # custom config params for clamav-unofficial-sigs setup:
 clamav_unofficial_sigs_custom_conf: true
-# valid rating: LOW, MEDIUM, HIGH
+
+# valid ratings: LOW, MEDIUM, HIGH
 clamav_sigs_false_positive_risk_level: 'MEDIUM'
+clamav_sigs_false_positive_risk_level_sanesecurity: 'LOW'
+
 # datasources enabled (make sure 'yes' and 'no' are quoted to keep them as a string and not a boolean):
 clamav_sigs_sanesecurity_enabled: 'yes'
 clamav_sigs_securiteinfo_enabled: 'no' # needs token

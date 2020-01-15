@@ -7,10 +7,16 @@
     msg: 'This role will only work on Ubuntu'
   when: ansible_distribution != 'Ubuntu'
 
-- name: Install clamav apt package (also installs freshclam and clamav-base)
+- name: Install ClamAV apt package (also installs freshclam and clamav-base)
   apt:
     name: clamav
     state: present
+
+- name: Install ClamAV unrar support to rar packed files
+  apt:
+    name: libclamunrar9
+    state: present
+  when: clamav_filescan_rar_support
 
 - name: Make sure clamav-unofficial-sigs apt package is NOT installed
   apt:

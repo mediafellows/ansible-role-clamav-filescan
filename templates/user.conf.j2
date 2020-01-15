@@ -49,7 +49,7 @@ default_dbs_rating="{{ clamav_sigs_false_positive_risk_level }}"
 # Per Database
 # These ratings will override the global rating for the specific database
 # valid rating: LOW, MEDIUM, HIGH, DISABLE
-#sanesecurity_dbs_rating="HIGH"
+sanesecurity_dbs_rating="{{ clamav_sigs_false_positive_risk_level_sanesecurity }}"
 #securiteinfo_dbs_rating="HIGH"
 #linuxmalwaredetect_dbs_rating="HIGH"
 #yararulesproject_dbs_rating="HIGH"
