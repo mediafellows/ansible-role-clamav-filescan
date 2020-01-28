@@ -44,7 +44,7 @@
 - name: Download clamav-unofficial-sigs script to install dir
   get_url:
     url: "{{ clamav_unofficial_sigs_gh_url }}/clamav-unofficial-sigs.sh"
-    dest: "{{ clamav_unofficial_sigs_install_dir}}/clamav-unofficial-sigs"
+    dest: "{{ clamav_unofficial_sigs_install_dir }}/clamav-unofficial-sigs"
     mode: 0755
 
 - name: Download clamav-unofficial-sigs configs to config dir, master.conf
