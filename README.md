@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/mediapeers/ansible-role-clamav-filescan.svg?branch=master)](https://travis-ci.com/mediapeers/ansible-role-clamav-filescan)
+[![Build Status](https://travis-ci.com/mediafellows/ansible-role-clamav-filescan.svg?branch=master)](https://travis-ci.com/mediafellows/ansible-role-clamav-filescan)
 
 # Clamav filescan Ansible role
 
@@ -40,7 +40,7 @@ Include this role into your playbook like this:
       vars:
         clamav_sigs_sanesecurity_enabled: 'no'
       roles:
-         - mediapeers.clamav-filescan
+         - mediafellows.clamav-filescan
       tasks:
         # my other tasks
 
@@ -50,4 +50,4 @@ BSD
 
 ## Author Information
 
-Stefan Horning <horning@mediapeers.com>
+Stefan Horning <stefan.horning@mediafellows.com>

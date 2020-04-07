@@ -1,5 +1,5 @@
 ---
-# tasks file for mediapeers.clamav-filescan
+# tasks file for mediafellows.clamav-filescan
 
 
 - name: Check if we are on Ubuntu

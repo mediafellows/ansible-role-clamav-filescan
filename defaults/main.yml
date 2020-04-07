@@ -1,5 +1,5 @@
 ---
-# defaults file for mediapeers.clamav-filescan
+# defaults file for mediafellows.clamav-filescan
 
 # Set to false to not install libclamunrar9 package:
 clamav_filescan_rar_support: true

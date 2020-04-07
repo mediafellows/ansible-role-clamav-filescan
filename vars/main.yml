@@ -1,4 +1,4 @@
 ---
-# vars file for mediapeers.clamav-filescan
+# vars file for mediafellows.clamav-filescan
 
 clamav_unofficial_sigs_gh_url: 'https://raw.githubusercontent.com/extremeshok/clamav-unofficial-sigs/master'
