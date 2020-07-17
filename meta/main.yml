@@ -1,5 +1,5 @@
 galaxy_info:
-  role_name: clamav-filescan
+  role_name: clamav_filescan
   author: Stefan Horning
   description: Sets up Clamav for effective file scanning
   company: Mediapeers GmbH
@@ -12,7 +12,7 @@ galaxy_info:
         - all
 
   galaxy_tags:
-    - virus-scanning
+    - virus_scanning
     - clamav
     - clamav_unofficial_sigs
     - file_scanning

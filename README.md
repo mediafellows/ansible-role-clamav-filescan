@@ -40,7 +40,7 @@ Include this role into your playbook like this:
       vars:
         clamav_sigs_sanesecurity_enabled: 'no'
       roles:
-         - mediafellows.clamav-filescan
+         - mediafellows.clamav_filescan
       tasks:
         # my other tasks
 
