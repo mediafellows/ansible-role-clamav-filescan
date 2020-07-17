@@ -14,8 +14,8 @@ galaxy_info:
   galaxy_tags:
     - virus-scanning
     - clamav
-    - clamav-unofficial-sigs
-    - file-scanning
+    - clamav_unofficial_sigs
+    - file_scanning
     - ubuntu
     - security
 
