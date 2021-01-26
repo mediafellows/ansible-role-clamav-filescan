@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/mediafellows/ansible-role-clamav-filescan.svg?branch=master)](https://travis-ci.com/mediafellows/ansible-role-clamav-filescan)
+[![Ansible-Test](https://github.com/mediafellows/ansible-role-clamav-filescan/workflows/Ansible-Test/badge.svg)](https://github.com/mediafellows/ansible-role-clamav-filescan/actions?query=workflow%3AAnsible-Test)
 
 # Clamav filescan Ansible role
 
