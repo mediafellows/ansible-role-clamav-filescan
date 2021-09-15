@@ -3,23 +3,23 @@
 
 
 - name: Check if we are on Ubuntu
-  fail:
+  ansible.builtin.fail:
     msg: 'This role will only work on Ubuntu'
   when: ansible_distribution != 'Ubuntu'
 
 - name: Install ClamAV apt package (also installs freshclam and clamav-base)
-  apt:
+  ansible.builtin.apt:
     name: clamav
     state: present
 
 - name: Install ClamAV unrar support to rar packed files
-  apt:
+  ansible.builtin.apt:
     name: libclamunrar9
     state: present
   when: clamav_filescan_rar_support
 
 - name: Make sure clamav-unofficial-sigs apt package is NOT installed
-  apt:
+  ansible.builtin.apt:
     name: clamav-unofficial-sigs
     purge: yes
     state: absent
@@ -28,11 +28,11 @@
 # roughly following this guide https://github.com/extremeshok/clamav-unofficial-sigs/blob/master/guides/ubuntu-debian.md
 
 - name: Initialize variable
-  set_fact:
+  ansible.builtin.set_fact:
     clamav_unofficial_sigs_already_installed: false
 
 - name: Prepares install dirs for clamav-unofficial-sigs tool
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     recurse: yes
     owner: root
@@ -42,35 +42,36 @@
     - "{{ clamav_unofficial_sigs_config_dir }}"
 
 - name: Download clamav-unofficial-sigs script to install dir
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ clamav_unofficial_sigs_gh_url }}/clamav-unofficial-sigs.sh"
     dest: "{{ clamav_unofficial_sigs_install_dir }}/clamav-unofficial-sigs"
     mode: 0755
 
 - name: Download clamav-unofficial-sigs configs to config dir, master.conf
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ clamav_unofficial_sigs_gh_url }}/config/master.conf"
     dest: "{{ clamav_unofficial_sigs_config_dir }}/master.conf"
 
 - name: os.ubuntu.conf
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ clamav_unofficial_sigs_gh_url }}/config/os/os.ubuntu.conf"
     dest: "{{ clamav_unofficial_sigs_config_dir }}/os.conf"
 
 - name: user.conf (unless role template is used)
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ clamav_unofficial_sigs_gh_url }}/config/user.conf"
     dest: "{{ clamav_unofficial_sigs_config_dir }}/user.conf"
   when: not clamav_unofficial_sigs_custom_conf|bool
 
 - name: Place custom user.conf for clamav-unofficial-sigs if enabled
-  template:
+  ansible.builtin.template:
     src: user.conf.j2
     dest: "{{ clamav_unofficial_sigs_config_dir }}/user.conf"
   when: clamav_unofficial_sigs_custom_conf|bool
 
 - name: Get clamav-unofficial-sigs info output
-  shell: '{{ clamav_unofficial_sigs_install_dir }}/clamav-unofficial-sigs --information'
+  ansible.builtin.shell:
+    cmd: '{{ clamav_unofficial_sigs_install_dir }}/clamav-unofficial-sigs --information'
   register: info_result
   # don't consider it a failure when an instance is already running
   failed_when:
@@ -78,39 +79,42 @@
     - '"Only one instance can run at the same time" not in info_result.stdout'
 
 - name: Output clamav-unofficial-sigs info
-  debug:
+  ansible.builtin.debug:
     var: info_result.stdout_lines
 
 - name: Set already installed flag to skip the clamav-unofficial-sigs commands
-  set_fact:
+  ansible.builtin.set_fact:
     clamav_unofficial_sigs_already_installed: true
   when:
     - '"Only one instance can run at the same time" in info_result.stdout'
 
 - name: Run the clamav-unofficial-sigs install command
-  shell: '{{ clamav_unofficial_sigs_install_dir }}/clamav-unofficial-sigs --force --verbose'
+  ansible.builtin.shell:
+    cmd: '{{ clamav_unofficial_sigs_install_dir }}/clamav-unofficial-sigs --force --verbose'
   register: install_result
   when: not clamav_unofficial_sigs_already_installed
 
 - name: Output result of install step
-  debug:
+  ansible.builtin.debug:
     var: install_result.stdout_lines
   when: not clamav_unofficial_sigs_already_installed
 
 - name: Install clamav-unofficial-sigs logrotate config
-  shell: '{{ clamav_unofficial_sigs_install_dir }}/clamav-unofficial-sigs --install-logrotate'
+  ansible.builtin.shell:
+    cmd: '{{ clamav_unofficial_sigs_install_dir }}/clamav-unofficial-sigs --install-logrotate'
   when:
     - clamav_unofficial_sigs_install_logrotate
     - not clamav_unofficial_sigs_already_installed
 
 - name: Install clamav-unofficial-sigs man-page
-  shell: '{{ clamav_unofficial_sigs_install_dir }}/clamav-unofficial-sigs --install-man'
+  ansible.builtin.shell:
+    cmd: '{{ clamav_unofficial_sigs_install_dir }}/clamav-unofficial-sigs --install-man'
   when:
     - clamav_unofficial_sigs_install_manpage
     - not clamav_unofficial_sigs_already_installed
 
 - name: Install systemd configs that run signature updates in boot and every hour after that
-  template:
+  ansible.builtin.template:
     src: "{{ item }}.j2"
     dest: "/etc/systemd/system/{{ item }}"
   with_items:
@@ -127,9 +131,10 @@
 # -- End of clamav-unofficial-sigs install --
 
 - name: Scan a file to ensure clamscan command works and has signatures loaded
-  shell: 'clamscan /usr/local/sbin/clamav-unofficial-sigs'
+  ansible.builtin.shell:
+    cmd: 'clamscan /usr/local/sbin/clamav-unofficial-sigs'
   register: clamscan_result
 
 - name: Show output of clamscan (signatures should be > 6.600.000)
-  debug:
+  ansible.builtin.debug:
     var: clamscan_result.stdout_lines
