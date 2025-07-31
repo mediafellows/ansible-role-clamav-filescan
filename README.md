@@ -1,4 +1,4 @@
-[![Ansible-Test](https://github.com/mediafellows/ansible-role-clamav-filescan/workflows/Ansible-Test/badge.svg)](https://github.com/mediafellows/ansible-role-clamav-filescan/actions?query=workflow%3AAnsible-Test)
+[![Ansible-Test](https://github.com/mediafellows/ansible-role-clamav-filescan/actions/workflows/ansible_test.yml/badge.svg)](https://github.com/mediafellows/ansible-role-clamav-filescan/actions/workflows/ansible_test.yml)
 
 # Clamav filescan Ansible role
 
