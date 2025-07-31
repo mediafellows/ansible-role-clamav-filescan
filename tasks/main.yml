@@ -14,7 +14,7 @@
 
 - name: Install ClamAV unrar support to rar packed files
   ansible.builtin.apt:
-    name: libclamunrar9
+    name: libclamunrar12
     state: present
   when: clamav_filescan_rar_support
 
